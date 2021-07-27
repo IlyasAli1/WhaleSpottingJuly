@@ -1,7 +1,13 @@
 version: 2.1
 orbs:
   node: circleci/node@1.1.6
-  windows: circleci/windows@2.2.0
+
+executors:
+  dotnet:
+    description: .NET Executor
+    docker:
+      - image: mcr.microsoft.com/dotnet/sdk:5.0
+
 jobs:
   test-frontend:
     executor:
@@ -16,13 +22,12 @@ jobs:
             - run:
                 name: "Run tests"
                 command: cd WhaleSpotting/react-app; npm test
-            # Uncomment below to add linting
+#            Uncomment these lines to run the linter
 #            - run:
 #                name: "Run lint"
 #                command: cd WhaleSpotting/react-app; npm run lint
   test-backend:
-    executor:
-      name: windows/default
+    executor: dotnet
     steps:
       - checkout
       - restore_cache:
@@ -30,16 +35,17 @@ jobs:
             - dotnet-packages-v1-{{ checksum "WhaleSpotting/WhaleSpotting.csproj" }}
       - run:
           name: "Restore project"
-          command: dotnet.exe restore
+          command: dotnet restore
       - save_cache:
           paths:
             - C:\Users\circleci\.nuget\packages
           key: dotnet-packages-v1-{{ checksum "WhaleSpotting/WhaleSpotting.csproj" }}
       - run:
           name: "Run tests"
-          command: dotnet.exe test
+          command: dotnet test
+
 workflows:
   test:
     jobs:
-      - frontend
+      - test-frontend
       - test-backend
