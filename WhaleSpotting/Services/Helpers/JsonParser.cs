@@ -13,11 +13,11 @@ namespace WhaleSpotting.Services.Helpers
     {
         //private static readonly ILogger Logger = LogManager.GetCurrentClassLogger();
 
-        public static List<SightingResponseModel> GetTransactionsFromJson(string path)
+        public static List<SightingResponseModel> GetSightingsFromJson(string json)
         {
             try
             {
-                var json = File.ReadAllText("http://hotline.whalemuseum.org/api.json");
+                //var json = File.ReadAllText("http://hotline.whalemuseum.org/api.json");
                 //Logger.Info("The program has successfully read the file.");
                 return JsonConvert.DeserializeObject<List<SightingResponseModel>>(json);
             }

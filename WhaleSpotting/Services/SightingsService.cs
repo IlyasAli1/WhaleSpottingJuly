@@ -9,7 +9,7 @@ namespace WhaleSpotting.Services
 {
     public interface ISightingsServices
     {
-        IEnumerable<SightingResponseModel> GetSightings();
+        //IEnumerable<SightingResponseModel> GetSightings();
     }
 
     public class SightingsService : ISightingsServices
@@ -21,9 +21,9 @@ namespace WhaleSpotting.Services
             _context = context;
         }
 
-        public IEnumerable<SightingResponseModel> GetSightings ()
-        {
-
-        }
+        //public IEnumerable<SightingResponseModel> GetSightings ()
+        //{
+        //    return null;
+        //}
     }
 }

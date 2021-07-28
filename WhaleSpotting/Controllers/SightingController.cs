@@ -4,6 +4,12 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using WhaleSpotting.Models.ApiModels;
+using WhaleSpotting.Models.RequestModels;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using WhaleSpotting.Services.Helpers;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace WhaleSpotting.Controllers
 {
@@ -12,43 +18,23 @@ namespace WhaleSpotting.Controllers
     public class SightingController : ControllerBase
     {
         [HttpGet]
-        public IEnumerable<SightingsResponseModel> Get()
+        public IActionResult Sighting()
         {
-            _sightings.GetSightingBy
+            //async Task<IEnumerable<SightingResponseModel>> GetSightingsAsync ()
+            //{
+            //    IEnumerable<SightingResponseModel> result = null;
+                
+            //    HttpClient client = new HttpClient();
+            //    HttpResponseMessage response = await client.GetAsync("http://hotline.whalemuseum.org/api.json");
+            //    if (response.IsSuccessStatusCode)
+            //    {
+            //        var jsonText = await response.Content.ReadAsStringAsync();
+            //        result = JsonConvert.DeserializeObject<List<SightingResponseModel>>(jsonText);
+            //    }
+            //    return result;
+            //}
+
+            return Created(Url.Action("Get", new { id = 2 }), new SightingResponseModel());
         }
-
-
-
-    //    public ActionResult Index()
-    //    {
-    //        IEnumerable<StudentViewModel> students = null;
-
-    //        using (var client = new HttpClient())
-    //        {
-    //            client.BaseAddress = new Uri("http://localhost:64189/api/");
-    //            //HTTP GET
-    //            var responseTask = client.GetAsync("student");
-    //            responseTask.Wait();
-
-    //            var result = responseTask.Result;
-    //            if (result.IsSuccessStatusCode)
-    //            {
-    //                var readTask = result.Content.ReadAsAsync<IList<StudentViewModel>>();
-    //                readTask.Wait();
-
-    //                students = readTask.Result;
-    //            }
-    //            else //web api sent error response 
-    //            {
-    //                //log response status here..
-
-    //                students = Enumerable.Empty<StudentViewModel>();
-
-    //                ModelState.AddModelError(string.Empty, "Server error. Please contact administrator.");
-    //            }
-    //        }
-    //        return View(students);
-    //    }
-    //}
-}
+    }
 }
