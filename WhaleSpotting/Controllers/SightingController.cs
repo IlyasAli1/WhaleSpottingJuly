@@ -20,21 +20,31 @@ namespace WhaleSpotting.Controllers
         [HttpGet]
         public IActionResult Sighting()
         {
-            //async Task<IEnumerable<SightingResponseModel>> GetSightingsAsync ()
-            //{
-            //    IEnumerable<SightingResponseModel> result = null;
-                
-            //    HttpClient client = new HttpClient();
-            //    HttpResponseMessage response = await client.GetAsync("http://hotline.whalemuseum.org/api.json");
-            //    if (response.IsSuccessStatusCode)
-            //    {
-            //        var jsonText = await response.Content.ReadAsStringAsync();
-            //        result = JsonConvert.DeserializeObject<List<SightingResponseModel>>(jsonText);
-            //    }
-            //    return result;
-            //}
+            // packages used:
+            // Microsoft.AspNet.WebApi.Client
+            // Newtonsoft.Json
 
-            return Created(Url.Action("Get", new { id = 2 }), new SightingResponseModel());
+            IEnumerable<SightingResponseModel> result = null;
+            var URL = "http://hotline.whalemuseum.org/";
+
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri(URL);
+
+            client.DefaultRequestHeaders.Accept.Add(
+            new MediaTypeWithQualityHeaderValue("application/json"));
+
+            var response = client.GetAsync("api.json").Result;  
+            if (response.IsSuccessStatusCode)
+            {
+                var json = response.Content.ReadAsStringAsync().Result; 
+                result = JsonConvert.DeserializeObject<List<SightingResponseModel>>(json);
+            }
+            else
+            {
+                return BadRequest("Error");
+            }
+
+            return Created(Url.Action("Get", new { id = 2 }), result);
         }
     }
 }
